@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ClientePPT/ClientePPT.csproj" />
+  <Project Path="ServidorPPT/ServidorPPT.csproj" />
+</Solution>

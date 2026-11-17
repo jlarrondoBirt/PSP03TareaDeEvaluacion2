@@ -1,0 +1,15 @@
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\bin\Debug\net10.0\ServidorPPT.exe
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\bin\Debug\net10.0\ServidorPPT.deps.json
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\bin\Debug\net10.0\ServidorPPT.runtimeconfig.json
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\bin\Debug\net10.0\ServidorPPT.dll
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\bin\Debug\net10.0\ServidorPPT.pdb
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\obj\Debug\net10.0\ServidorPPT.GeneratedMSBuildEditorConfig.editorconfig
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\obj\Debug\net10.0\ServidorPPT.AssemblyInfoInputs.cache
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\obj\Debug\net10.0\ServidorPPT.AssemblyInfo.cs
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\obj\Debug\net10.0\ServidorPPT.csproj.CoreCompileInputs.cache
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\obj\Debug\net10.0\ServidorPPT.dll
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\obj\Debug\net10.0\refint\ServidorPPT.dll
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\obj\Debug\net10.0\ServidorPPT.pdb
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\obj\Debug\net10.0\ServidorPPT.genruntimeconfig.cache
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\obj\Debug\net10.0\ref\ServidorPPT.dll
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ServidorPPT\obj\Debug\net10.0\Servidor.5DBE3F03.Up2Date

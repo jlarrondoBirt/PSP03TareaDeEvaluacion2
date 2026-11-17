@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "ServidorPPT/1.0.0": {
+        "runtime": {
+          "ServidorPPT.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ServidorPPT/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
