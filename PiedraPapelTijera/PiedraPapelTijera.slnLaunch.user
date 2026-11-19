@@ -3,14 +3,14 @@
     "Name": "Nuevo perfil",
     "Projects": [
       {
-        "Path": "ClientePPT\\ClientePPT.csproj",
-        "Action": "Start",
-        "DebugTarget": "ClientePPT"
-      },
-      {
         "Path": "ServidorPPT\\ServidorPPT.csproj",
         "Action": "Start",
         "DebugTarget": "ServidorPPT"
+      },
+      {
+        "Path": "ClientePPT\\ClientePPT.csproj",
+        "Action": "Start",
+        "DebugTarget": "ClientePPT"
       }
     ]
   }

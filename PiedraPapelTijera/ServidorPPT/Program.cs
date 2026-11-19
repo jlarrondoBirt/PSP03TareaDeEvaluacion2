@@ -1,164 +1,228 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.IO;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ServidorPPT
 {
     internal class Program
     {
-        // Puerto TCP utilizado por el servidor
+        // Puerto TCP en el que escucha el servidor
         private const int PUERTO = 5000;
 
-        // Número máximo de jugadores
-        private const int MAXIMO_JUGADORES = 2;
+        // Lista que almacena las conexiones TCP de los jugadores
+        private static List<TcpClient> jugadores = new List<TcpClient>();
 
-        // Lista de conexiones de los jugadores
-        private static readonly List<TcpClient> jugadores = new List<TcpClient>();
+        // Diccionario que relaciona cada conexión con el nombre del jugador
+        private static Dictionary<TcpClient, string> nombres = new Dictionary<TcpClient, string>();
 
-        // Relaciona cada conexión con su nombre
-        private static readonly Dictionary<TcpClient, string> nombres = new Dictionary<TcpClient, string>();
+        // Diccionario que almacena los puntos de cada jugador
+        private static Dictionary<TcpClient, int> puntuaciones = new Dictionary<TcpClient, int>();
 
-        // Almacena los puntos de cada jugador
-        private static readonly Dictionary<TcpClient, int> puntuaciones = new Dictionary<TcpClient, int>();
+        // Diccionario que guarda las jugadas realizadas
+        private static Dictionary<TcpClient, string> jugadas = new Dictionary<TcpClient, string>();
 
-        // Almacena las jugadas de la partida actual
-        private static readonly Dictionary<TcpClient, string> jugadas = new Dictionary<TcpClient, string>();
-
-        // Candado para proteger los datos compartidos
+        // Objeto utilizado como candado para proteger las listas y diccionarios compartidos entre tareas
         private static readonly object candado = new object();
 
-        // Número de partidas realizadas
+        // Contador que identifica cada partida.
         private static int numeroPartida = 0;
 
-        // Resultado de la última partida
+        // Almacena el resultado de la última partida
         private static string ultimoResultado = "RESULTADO|Todavía no se ha jugado ninguna partida.";
 
         static void Main(string[] args)
         {
-            TcpListener servidor =
-                new TcpListener(IPAddress.Any, PUERTO);
+            // Creamos el servidor TCP
+            TcpListener servidor = new TcpListener(IPAddress.Any, PUERTO);
 
             try
             {
-                // Iniciamos el servidor
+                // Ponemos el servidor a escuchar conexiones.
                 servidor.Start();
 
-                MostrarEstadoServidor();
+                Console.WriteLine("================================");
+                Console.WriteLine("   SERVIDOR PIEDRA PAPEL TIJERA");
+                Console.WriteLine("================================");
+                Console.WriteLine("Servidor iniciado.");
+                Console.WriteLine("Esperando jugadores...");
+                Console.WriteLine("Puerto: " + PUERTO);
 
-                // Esperamos continuamente nuevas conexiones
                 while (true)
                 {
+                    // AcceptTcpClient espera hasta que se conecta un cliente
                     TcpClient cliente = servidor.AcceptTcpClient();
 
-                    AceptarCliente(cliente);
+                    bool aceptado = false;
+
+                    // Protegemos el acceso a la lista de jugadores
+                    lock (candado)
+                    {
+                        // El juego admite como máximo dos jugadores
+                        if (jugadores.Count < 2)
+                        {
+                            jugadores.Add(cliente);
+                            aceptado = true;
+                        }
+                    }
+
+                    if (aceptado)
+                    {
+                        Console.WriteLine("\nNuevo cliente conectado.");
+
+                        // Ejecutamos la atención del cliente en una tarea independiente
+                        Task.Run(() => AtenderCliente(cliente));
+                    }
+                    else
+                    {
+                        // Si ya hay dos jugadores, rechazamos la conexión.
+                        Console.WriteLine("\nConexión rechazada: máximo de 2 jugadores.");
+
+                        // Enviamos al cliente un mensaje indicando que el servidor está lleno
+                        using (NetworkStream flujo = cliente.GetStream())
+                        using (StreamWriter escritor = new StreamWriter(flujo, new UTF8Encoding(false)))
+                        {
+                            escritor.AutoFlush = true;
+                            escritor.WriteLine("ERROR|LLENO");
+                        }
+
+                        cliente.Close();
+                    }
                 }
             }
             catch (SocketException ex)
             {
+                // Capturamos posibles errores relacionados con los sockets
                 Console.WriteLine("Error de conexión: " + ex.Message);
             }
             finally
             {
+                // Detenemos el servidor y liberamos el puerto
                 servidor.Stop();
-                Console.WriteLine("Servidor detenido.");
             }
         }
 
-        // Muestra información del servidor
-        private static void MostrarEstadoServidor()
-        {
-            Console.WriteLine("================================");
-            Console.WriteLine("   SERVIDOR PIEDRA PAPEL TIJERA");
-            Console.WriteLine("================================");
-            Console.WriteLine("Servidor iniciado.");
-            Console.WriteLine("Esperando jugadores...");
-            Console.WriteLine("Puerto: " + PUERTO);
-        }
-
-        // Acepta nuevos clientes
-        private static void AceptarCliente(TcpClient cliente)
-        {
-            bool aceptado = false;
-
-            // Comprobamos si hay plazas disponibles
-            lock (candado)
-            {
-                if (jugadores.Count < MAXIMO_JUGADORES)
-                {
-                    jugadores.Add(cliente);
-                    aceptado = true;
-                }
-            }
-
-            if (aceptado)
-            {
-                Console.WriteLine("\nNuevo cliente conectado.");
-
-                Console.WriteLine("Jugadores conectados: " + ObtenerNumeroJugadores());
-
-                // Atendemos al cliente en una tarea independiente
-                Task.Run(() => AtenderCliente(cliente));
-            }
-            else
-            {
-                RechazarCliente(cliente);
-            }
-        }
-
-        // Rechaza a los clientes si el servidor esta lleno
-        private static void RechazarCliente(TcpClient cliente)
-        {
-            Console.WriteLine("\nConexión rechazada: máximo de 2 jugadores.");
-
-            try
-            {
-                using (NetworkStream flujo = cliente.GetStream())
-                using (StreamWriter escritor =
-                    new StreamWriter(flujo, new UTF8Encoding(false)))
-                {
-                    escritor.AutoFlush = true;
-
-                    escritor.WriteLine("ERROR|LLENO");
-                }
-            }
-            finally
-            {
-                cliente.Close();
-            }
-        }
-
-        // Atiende a cada jugador
+        // MÉTODO QUE ATIENDE A CADA JUGADOR
         private static void AtenderCliente(TcpClient cliente)
         {
             try
             {
                 using (NetworkStream flujo = cliente.GetStream())
+
                 using (StreamReader lector = new StreamReader(flujo, new UTF8Encoding(false)))
                 using (StreamWriter escritor = new StreamWriter(flujo, new UTF8Encoding(false)))
                 {
+                    // Enviamos cada mensaje inmediatamente
                     escritor.AutoFlush = true;
 
-                    // Registramos al jugador
-                    if (!RegistrarJugador(cliente, lector, escritor))
-                        return;
+                    // Recibimos el nombre del jugador
+                    string nombre = lector.ReadLine();
 
+                    // Comprobamos que el nombre no esté vacío
+                    if (string.IsNullOrWhiteSpace(nombre))
+                    {
+                        Console.WriteLine("Un cliente se ha desconectado sin registrarse.");
+                        return;
+                    }
+
+                    // Guardamos el nombre y la puntuación inicial del jugador
+                    lock (candado)
+                    {
+                        nombres[cliente] = nombre;
+                        puntuaciones[cliente] = 0;
+                    }
+
+                    Console.WriteLine("Jugador registrado: " + nombre);
+
+                    // Confirmamos al cliente que el registro ha sido correcto
+                    escritor.WriteLine("OK|REGISTRO");
+
+                    // Bucle que recibe y procesa continuamente las peticiones del jugador
                     string mensaje;
 
-                    // Recibimos mensajes continuamente
                     while ((mensaje = lector.ReadLine()) != null)
                     {
-                        Console.WriteLine(nombres[cliente] + " envía: " + mensaje);
+                        Console.WriteLine(nombre + " envía: " + mensaje);
 
-                        // Procesamos la petición recibida
-                        bool continuar = ProcesarMensaje(cliente, mensaje, escritor);
+                        // JUGAR
+                        if (mensaje.StartsWith("JUGAR|"))
+                        {
+                            // Separamos el comando de la jugada
+                            string[] partes = mensaje.Split('|');
 
-                        if (!continuar)
+                            if (partes.Length == 2)
+                            {
+                                // Convertimos la jugada a mayúsculas
+                                string jugada = partes[1].ToUpper();
+
+                                // Procesamos la jugada y esperamos a que se complete la partida con el otro jugador
+                                string resultado = ProcesarJugada(cliente, jugada);
+
+                                // Enviamos la respuesta al cliente
+                                escritor.WriteLine(resultado);
+                            }
+                            else
+                            {
+                                // Respondemos si el mensaje no tiene el formato esperado
+                                escritor.WriteLine("ERROR|Formato incorrecto.");
+                            }
+                        }
+
+                        // PUNTUACIONES
+                        else if (mensaje == "PUNTUACION")
+                        {
+                            // Protegemos los datos mientras se consultan
+                            lock (candado)
+                            {
+                                // Creamos el mensaje que se enviará al cliente
+                                string respuesta = "PUNTUACION|";
+
+                                // Recorremos todos los jugadores conectados
+                                foreach (TcpClient jugador in jugadores)
+                                {
+                                    // Comprobamos que el jugador tenga un nombre registrado
+                                    if (nombres.ContainsKey(jugador))
+                                    {
+                                        // Añadimos nombre y puntos al mensaje
+                                        respuesta += nombres[jugador] + ": " + puntuaciones[jugador] + " puntos; ";
+                                    }
+                                }
+
+                                // Enviamos todas las puntuaciones al cliente que las solicitó
+                                escritor.WriteLine(respuesta);
+                            }
+                        }
+
+                        // RESULTADO
+                        else if (mensaje == "RESULTADO")
+                        {
+                            // Protegemos el acceso al resultado compartido
+                            lock (candado)
+                            {
+                                // Enviamos el resultado de la última partida
+                                escritor.WriteLine(ultimoResultado);
+                            }
+                        }
+
+                        // SALIR DEL JUEGO
+                        else if (mensaje == "SALIR")
+                        {
+                            // Confirmamos la salida
+                            escritor.WriteLine("OK|SALIR");
+
+                            // Salimos del bucle y finalizamos la atención del cliente
                             break;
+                        }
+
+                        // COMANDO NO RECONOCIDO
+                        else
+                        {
+                            escritor.WriteLine("ERROR|COMANDO");
+                        }
                     }
                 }
             }
@@ -172,308 +236,176 @@ namespace ServidorPPT
             }
             finally
             {
-                // Eliminamos al jugador cuando termina su conexión.
-                EliminarJugador(cliente);
-            }
-        }
-
-        // Registra cada jugador
-        private static bool RegistrarJugador(TcpClient cliente, StreamReader lector, StreamWriter escritor)
-        {
-            // Recibimos el nombre enviado por el cliente
-            string nombre = lector.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(nombre))
-            {
-                Console.WriteLine("Un cliente se ha desconectado sin registrarse.");
-                return false;
-            }
-
-            // Guardamos el nombre y su puntuación inicial
-            lock (candado)
-            {
-                nombres[cliente] = nombre;
-                puntuaciones[cliente] = 0;
-            }
-
-            Console.WriteLine("Jugador registrado: " + nombre);
-
-            // Confirmamos el registro al cliente.
-            escritor.WriteLine("OK|REGISTRO");
-
-            return true;
-        }
-
-        // Procesa los mensajes del cliente
-        private static bool ProcesarMensaje(TcpClient cliente, string mensaje, StreamWriter escritor)
-        {
-            if (mensaje.StartsWith("JUGAR|"))
-            {
-                ProcesarPeticionJugar(cliente, mensaje, escritor);
-                return true;
-            }
-            else if (mensaje == "PUNTUACION")
-            {
-                escritor.WriteLine(ConsultarPuntuaciones());
-                return true;
-            }
-            else if (mensaje == "RESULTADO")
-            {
-                escritor.WriteLine(ObtenerUltimoResultado());
-                return true;
-            }
-            else if (mensaje == "SALIR")
-            {
-                escritor.WriteLine("OK|SALIR");
-
-                // Indicamos que debe terminar la comunicación
-                return false;
-            }
-            else
-            {
-                escritor.WriteLine("ERROR|COMANDO");
-                return true;
-            }
-        }
-
-        // Procesa la petición de jugar
-        private static void ProcesarPeticionJugar(TcpClient cliente, string mensaje, StreamWriter escritor)
-        {
-            // Separamos el comando y la jugada.
-            string[] partes = mensaje.Split('|');
-
-            if (partes.Length != 2)
-            {
-                escritor.WriteLine("ERROR|Formato incorrecto.");
-                return;
-            }
-
-            string jugada = partes[1].ToUpper();
-
-            // Procesamos la jugada
-            string resultado = ProcesarJugada(cliente, jugada);
-
-            // Enviamos la respuesta al cliente
-            escritor.WriteLine(resultado);
-        }
-
-        // Consulta las puntuaciones
-        private static string ConsultarPuntuaciones()
-        {
-            lock (candado)
-            {
-                StringBuilder respuesta = new StringBuilder("PUNTUACION|");
-
-                foreach (TcpClient jugador in jugadores)
+                // Eliminamos al jugador de las estructuras compartidas.
+                lock (candado)
                 {
-                    if (nombres.ContainsKey(jugador) && puntuaciones.ContainsKey(jugador))
-                    {
-                        respuesta.Append(nombres[jugador]).Append(": ").Append(puntuaciones[jugador]).Append(" puntos; ");
-                    }
-                }
+                    jugadores.Remove(cliente);
+                    nombres.Remove(cliente);
+                    puntuaciones.Remove(cliente);
+                    jugadas.Remove(cliente);
 
-                return respuesta.ToString();
-            }
-        }
-
-        // Consulta el último resultado
-        private static string ObtenerUltimoResultado()
-        {
-            lock (candado)
-            {
-                return ultimoResultado;
-            }
-        }
-
-        // Procesa las jugadas
-        private static string ProcesarJugada(
-            TcpClient cliente,
-            string jugada)
-        {
-            lock (candado)
-            {
-                // Comprobamos que haya dos jugadores
-                if (jugadores.Count < MAXIMO_JUGADORES)
-                {
-                    return "ERROR|Se necesitan dos jugadores.";
-                }
-
-                // Validamos la jugada recibida
-                if (!EsJugadaValida(jugada))
-                {
-                    return "ERROR|Jugada no válida.";
-                }
-
-                int partidaSolicitada = numeroPartida + 1;
-
-                // Guardamos la jugada del jugador
-                jugadas[cliente] = jugada;
-
-                Console.WriteLine(nombres[cliente] + " ha elegido " + jugada);
-
-                // Si falta la jugada del otro jugador, esperamos
-                // Mostramos el mensaje una sola vez
-                Console.WriteLine("Esperando la jugada del otro jugador...");
-
-                while (jugadas.Count < MAXIMO_JUGADORES &&
-                       numeroPartida < partidaSolicitada &&
-                       jugadores.Contains(cliente))
-                {
-                    // Esperamos a que llegue la jugada del segundo jugador
-                    Monitor.Wait(candado, 500);
-
-                    if (ConexionCerrada(cliente))
-                    {
-                        QuitarDatosJugador(cliente);
-
-                        Monitor.PulseAll(candado);
-
-                        return "ERROR|El jugador se ha desconectado.";
-                    }
-                }
-
-                // Comprobamos que ambos jugadores siguen conectados
-                if (!jugadores.Contains(cliente) || jugadores.Count < MAXIMO_JUGADORES)
-                {
-                    return "ERROR|No se ha podido completar la partida.";
-                }
-
-                // Si tenemos las dos jugadas, resolvemos la partida
-                if (numeroPartida < partidaSolicitada && jugadas.Count == MAXIMO_JUGADORES)
-                {
-                    ResolverPartida();
-
-                    // Despertamos al jugador que estaba esperando
+                    // Avisamos a los hilos que estén esperando a que se complete una partida.
                     Monitor.PulseAll(candado);
                 }
 
-                return ultimoResultado;
+                // Cerramos la conexión TCP del jugador
+                cliente.Close();
+
+                Console.WriteLine("Un jugador se ha desconectado.");
+
+                // Mostramos cuántos jugadores siguen conectados
+                Console.WriteLine("Jugadores conectados: " + ObtenerNumeroJugadores());
             }
         }
 
-        // Valida la jugada
-        private static bool EsJugadaValida(string jugada)
-        {
-            return jugada == "PIEDRA" ||
-                   jugada == "PAPEL" ||
-                   jugada == "TIJERA";
-        }
-
-        // Resuelve la partida
-        private static void ResolverPartida()
-        {
-            // Obtenemos los dos jugadores
-            TcpClient[] participantes = jugadores.ToArray();
-
-            TcpClient jugador1 = participantes[0];
-            TcpClient jugador2 = participantes[1];
-
-            // Recuperamos sus jugadas
-            string jugada1 = jugadas[jugador1];
-            string jugada2 = jugadas[jugador2];
-
-            // Calculamos quién ha ganado
-            string resultado = CalcularGanador(jugador1, jugador2, jugada1, jugada2);
-
-            // Guardamos el resultado.
-            GuardarResultado(jugador1, jugador2, jugada1, jugada2, resultado);
-
-            // Eliminamos las jugadas para la siguiente partida.
-            jugadas.Remove(jugador1);
-            jugadas.Remove(jugador2);
-        }
-
-        // Calcula el ganador
-        private static string CalcularGanador(TcpClient jugador1, TcpClient jugador2, string jugada1, string jugada2)
-        {
-            // Comprobamos si existe empate.
-            if (jugada1 == jugada2)
-            {
-                return "Empate.";
-            }
-
-            // Aplicamos las reglas del juego.
-            bool ganaJugador1 =
-                (jugada1 == "PIEDRA" && jugada2 == "TIJERA") ||
-                (jugada1 == "PAPEL" && jugada2 == "PIEDRA") ||
-                (jugada1 == "TIJERA" && jugada2 == "PAPEL");
-
-            if (ganaJugador1)
-            {
-                puntuaciones[jugador1]++;
-
-                return "Ganador: " + nombres[jugador1];
-            }
-
-            puntuaciones[jugador2]++;
-
-            return "Ganador: " + nombres[jugador2];
-        }
-
-        // Guarda el resultado
-        private static void GuardarResultado(TcpClient jugador1, TcpClient jugador2, string jugada1, string jugada2, string resultado)
-        {
-            // Incrementamos el número de partida
-            numeroPartida++;
-
-            // Construimos el mensaje del resultado
-            ultimoResultado =
-                "RESULTADO|Partida " + numeroPartida +
-                " - " + nombres[jugador1] + ": " + jugada1 +
-                " - " + nombres[jugador2] + ": " + jugada2 +
-                " - " + resultado;
-
-            Console.WriteLine("\n" + ultimoResultado);
-        }
-
-        // Elimina jugador
-        private static void EliminarJugador(TcpClient cliente)
-        {
-            lock (candado)
-            {
-                QuitarDatosJugador(cliente);
-
-                // Despertamos a los posibles jugadores que esperan
-                Monitor.PulseAll(candado);
-            }
-
-            cliente.Close();
-
-            Console.WriteLine("Un jugador se ha desconectado.");
-
-            Console.WriteLine("Jugadores conectados: " + ObtenerNumeroJugadores());
-        }
-       
-        // Quita los datos del servidor
-        // Este método se ejecuta teniendo adquirido el candado
-        private static void QuitarDatosJugador(TcpClient cliente)
-        {
-            jugadores.Remove(cliente);
-            nombres.Remove(cliente);
-            puntuaciones.Remove(cliente);
-            jugadas.Remove(cliente);
-        }
-
-        // Cuenta los jugadores conectados
+        // MÉTODO QUE DEVUELVE EL NÚMERO DE JUGADORES CONECTADOS
         private static int ObtenerNumeroJugadores()
         {
+            // Bloqueamos el acceso mientras consultamos la lista
             lock (candado)
             {
                 return jugadores.Count;
             }
         }
 
-        // Comprueba si un cliente se ha desconectado
+        // MÉTODO QUE PROCESA LAS JUGADAS Y CALCULA EL RESULTADO
+        private static string ProcesarJugada(
+            TcpClient cliente, string jugada)
+        {
+            // Bloqueamos el acceso porque varios clientes pueden ejecutar este método simultáneamente
+            lock (candado)
+            {
+                // Comprobamos que haya dos jugadores conectados
+                if (jugadores.Count < 2)
+                {
+                    return "ERROR|Se necesitan dos jugadores.";
+                }
+
+                // Validamos que la jugada sea una de las tres permitidas
+                if (jugada != "PIEDRA" && jugada != "PAPEL" && jugada != "TIJERA")
+                {
+                    return "ERROR|Jugada no válida.";
+                }
+
+                // Calculamos el número de la partida que se va a jugar
+                int partidaSolicitada = numeroPartida + 1;
+
+                // Guardamos la jugada del jugador que ha enviado el mensaje
+                jugadas[cliente] = jugada;
+
+                Console.WriteLine(
+                    nombres[cliente] + " ha elegido " + jugada);
+
+                // Si solo hay una jugada, esperamos al segundo jugador.
+                if (jugadas.Count < 2)
+                {
+                    Console.WriteLine("Esperando la jugada del otro jugador...");
+
+                    // Monitor.Wait libera temporalmente el candado para permitir que el otro cliente pueda entrar
+                    while (jugadas.Count < 2 && numeroPartida < partidaSolicitada && jugadores.Contains(cliente))
+                    {
+                        // Esperamos 500 milisegundos antes de volver a comprobar
+                        Monitor.Wait(candado, 500);
+
+                        // Comprobamos si el cliente ha cerrado la conexión
+                        if (ConexionCerrada(cliente))
+                        {
+                            jugadores.Remove(cliente);
+                            nombres.Remove(cliente);
+                            puntuaciones.Remove(cliente);
+                            jugadas.Remove(cliente);
+
+                            // Despertamos a los posibles hilos que estén esperando
+                            Monitor.PulseAll(candado);
+
+                            return "ERROR|El jugador se ha desconectado.";
+                        }
+                    }
+                }
+
+                // Comprobamos que ambos jugadores sigan conectados
+                if (!jugadores.Contains(cliente) || jugadores.Count < 2)
+                {
+                    return "ERROR|No se ha podido completar la partida.";
+                }
+
+                // Si hay dos jugadas pendientes, podemos resolver la partida
+                if (numeroPartida < partidaSolicitada && jugadas.Count == 2)
+                {
+                    // Obtenemos los dos participantes
+                    TcpClient[] participantes = jugadores.ToArray();
+
+                    TcpClient jugador1 = participantes[0];
+                    TcpClient jugador2 = participantes[1];
+
+                    // Recuperamos las jugadas realizadas por cada participante
+                    string jugada1 = jugadas[jugador1];
+                    string jugada2 = jugadas[jugador2];
+
+                    string resultado;
+
+                    // COMPROBACIÓN DE EMPATE
+                    if (jugada1 == jugada2)
+                    {
+                        resultado = "Empate.";
+                    }
+                    else
+                    {
+                        // Aplicamos las reglas del juego:
+                        bool ganaJugador1 =
+                            (jugada1 == "PIEDRA" && jugada2 == "TIJERA") ||
+                            (jugada1 == "PAPEL" && jugada2 == "PIEDRA") ||
+                            (jugada1 == "TIJERA" && jugada2 == "PAPEL");
+
+                        // Actualizamos la puntuación del ganador.
+                        if (ganaJugador1)
+                        {
+                            puntuaciones[jugador1]++;
+                            resultado = "Ganador: " + nombres[jugador1];
+                        }
+                        else
+                        {
+                            puntuaciones[jugador2]++;
+                            resultado = "Ganador: " + nombres[jugador2];
+                        }
+                    }
+
+                    // Incrementamos el contador de partidas
+                    numeroPartida = partidaSolicitada;
+
+                    // Construimos y guardamos el resultado completo
+                    ultimoResultado = "RESULTADO|Partida " + numeroPartida +
+                                    " - " + nombres[jugador1] + ": " + jugada1 +
+                                    " - " + nombres[jugador2] + ": " + jugada2 +
+                                    " - " + resultado;
+
+                    // Mostramos el resultado en la consola del servidor
+                    Console.WriteLine("\n" + ultimoResultado);
+
+                    // Eliminamos las dos jugadas para preparar la siguiente partida
+                    jugadas.Remove(jugador1);
+                    jugadas.Remove(jugador2);
+
+                    // Despertamos al primer jugador que estaba esperando
+                    Monitor.PulseAll(candado);
+                }
+
+                // Devolvemos el resultado al método AtenderCliente
+                return ultimoResultado;
+            }
+        }
+
+        // MÉTODO QUE COMPRUEBA SI UN CLIENTE HA CERRADO SU CONEXIÓN
         private static bool ConexionCerrada(TcpClient cliente)
         {
             try
             {
-                return cliente.Client.Poll(
-                    0, SelectMode.SelectRead) &&
-                    cliente.Client.Available == 0;
+                // Si está preparado y Available es 0, significa que el otro extremo ha cerrado la conexión
+                return cliente.Client.Poll(0, SelectMode.SelectRead) && cliente.Client.Available == 0;
             }
             catch
             {
+                // Si se produce un error al consultar el socket, consideramos que la conexión está cerrada
                 return true;
             }
         }

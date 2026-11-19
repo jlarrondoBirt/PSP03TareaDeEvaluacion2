@@ -13,3 +13,19 @@ D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03Ta
 D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.genruntimeconfig.cache
 D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ref\ClientePPT.dll
 D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.csproj.Up2Date
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\bin\Debug\net10.0\ClientePPT.exe
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\bin\Debug\net10.0\ClientePPT.deps.json
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\bin\Debug\net10.0\ClientePPT.runtimeconfig.json
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\bin\Debug\net10.0\ClientePPT.dll
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\bin\Debug\net10.0\ClientePPT.pdb
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.GeneratedMSBuildEditorConfig.editorconfig
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.AssemblyInfoInputs.cache
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.AssemblyInfo.cs
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.csproj.CoreCompileInputs.cache
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.sourcelink.json
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.dll
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\refint\ClientePPT.dll
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.pdb
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.genruntimeconfig.cache
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ref\ClientePPT.dll
+D:\BirthLH\Zerbitzuak eta prozesuak programatzea (PSP)\PSP\PSP03(Joseba)\PSP03TareaEvaluacion02 - Kopia (2)\PiedraPapelTijera\ClientePPT\obj\Debug\net10.0\ClientePPT.csproj.Up2Date

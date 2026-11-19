@@ -1,14 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02\\PiedraPapelTijera\\",
+  "WorkspaceRootPath": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02 - Kopia (2)\\PiedraPapelTijera\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CD3D4787-610A-C63A-9B88-0E30C22F4EA6}|ServidorPPT\\ServidorPPT.csproj|d:\\birthlh\\zerbitzuak eta prozesuak programatzea (psp)\\psp\\psp03(joseba)\\psp03tareaevaluacion02\\piedrapapeltijera\\servidorppt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD3D4787-610A-C63A-9B88-0E30C22F4EA6}|ServidorPPT\\ServidorPPT.csproj|solutionrelative:servidorppt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B69D5574-441B-F607-C7D7-07D8C4A7759F}|ClientePPT\\ClientePPT.csproj|d:\\birthlh\\zerbitzuak eta prozesuak programatzea (psp)\\psp\\psp03(joseba)\\psp03tareaevaluacion02 - kopia (2)\\piedrapapeltijera\\clienteppt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B69D5574-441B-F607-C7D7-07D8C4A7759F}|ClientePPT\\ClientePPT.csproj|solutionrelative:clienteppt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B69D5574-441B-F607-C7D7-07D8C4A7759F}|ClientePPT\\ClientePPT.csproj|d:\\birthlh\\zerbitzuak eta prozesuak programatzea (psp)\\psp\\psp03(joseba)\\psp03tareaevaluacion02\\piedrapapeltijera\\clienteppt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B69D5574-441B-F607-C7D7-07D8C4A7759F}|ClientePPT\\ClientePPT.csproj|solutionrelative:clienteppt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CD3D4787-610A-C63A-9B88-0E30C22F4EA6}|ServidorPPT\\ServidorPPT.csproj|d:\\birthlh\\zerbitzuak eta prozesuak programatzea (psp)\\psp\\psp03(joseba)\\psp03tareaevaluacion02 - kopia (2)\\piedrapapeltijera\\servidorppt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CD3D4787-610A-C63A-9B88-0E30C22F4EA6}|ServidorPPT\\ServidorPPT.csproj|solutionrelative:servidorppt\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,26 +66,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02\\PiedraPapelTijera\\ServidorPPT\\Program.cs",
+              "DocumentMoniker": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02 - Kopia (2)\\PiedraPapelTijera\\ServidorPPT\\Program.cs",
               "RelativeDocumentMoniker": "ServidorPPT\\Program.cs",
-              "ToolTip": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02\\PiedraPapelTijera\\ServidorPPT\\Program.cs",
+              "ToolTip": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02 - Kopia (2)\\PiedraPapelTijera\\ServidorPPT\\Program.cs",
               "RelativeToolTip": "ServidorPPT\\Program.cs",
-              "ViewState": "AgIAAOABAAAAAAAAAAAAAEoBAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-12T18:07:10.873Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02\\PiedraPapelTijera\\ClientePPT\\Program.cs",
+              "DocumentMoniker": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02 - Kopia (2)\\PiedraPapelTijera\\ClientePPT\\Program.cs",
               "RelativeDocumentMoniker": "ClientePPT\\Program.cs",
-              "ToolTip": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02\\PiedraPapelTijera\\ClientePPT\\Program.cs",
+              "ToolTip": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02 - Kopia (2)\\PiedraPapelTijera\\ClientePPT\\Program.cs",
               "RelativeToolTip": "ClientePPT\\Program.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAAwCIBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgBAAAAAAAAAAAAACMBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-12T18:06:29.619Z",
               "EditorCaption": ""

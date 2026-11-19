@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ServidorPPT")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1dd8c89de0ea57401d56836fa4be1b4b74f2b063")]
 [assembly: System.Reflection.AssemblyProductAttribute("ServidorPPT")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ServidorPPT")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

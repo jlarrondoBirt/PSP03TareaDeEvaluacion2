@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02\\PiedraPapelTijera\\ClientePPT\\ClientePPT.csproj",
+      "projectUniqueName": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02 - Kopia (2)\\PiedraPapelTijera\\ClientePPT\\ClientePPT.csproj",
       "projectName": "ClientePPT",
-      "projectPath": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02\\PiedraPapelTijera\\ClientePPT\\ClientePPT.csproj",
+      "projectPath": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02 - Kopia (2)\\PiedraPapelTijera\\ClientePPT\\ClientePPT.csproj",
       "packagesPath": "C:\\Users\\Joseba\\.nuget\\packages\\",
-      "outputPath": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02\\PiedraPapelTijera\\ClientePPT\\obj\\",
+      "outputPath": "D:\\BirthLH\\Zerbitzuak eta prozesuak programatzea (PSP)\\PSP\\PSP03(Joseba)\\PSP03TareaEvaluacion02 - Kopia (2)\\PiedraPapelTijera\\ClientePPT\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Joseba\\AppData\\Roaming\\NuGet\\NuGet.Config",
